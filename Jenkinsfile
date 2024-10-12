@@ -47,51 +47,10 @@ pipeline {
             }
             steps {
                 sh '''
-                     # Use a writable directory for npm global installs
-
-                    export HOME=/tmp/jenkins
-
-                    mkdir -p $HOME/.npm-global
-
-                   
-
-                    # Set npm to use this directory for global installs
-
-                    npm config set prefix="$HOME/.npm-global"
-
-                   
-
-                    # Update the PATH to include the new directory
-
-                    export PATH=$HOME/.npm-global/bin:$PATH
-
-                   
-
-                    # Debugging: Print HOME and current user
-
-                    echo "HOME: $HOME"
-
-                    echo "Current User: $(whoami)"
-
-                   
-
-                    # Install serve globally
-
-                    npm install -g serve
-
-                   
-
-                    # Serve the build and run tests
-
-                    nohup serve -s build &
-
+                     npm install serve
+                    node_modules/.bin/serve -s build &
                     sleep 10
-
-                   
-
-                    # Run Playwright tests
-
-                    npx playwright test               
+                    npx playwright test
                 '''
             }
 
